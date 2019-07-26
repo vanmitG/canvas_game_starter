@@ -14,7 +14,7 @@ Here's a walkthrough of implemented user stories.
 
 This code was reviewed by @username and @otherusername.
 
-- [Link to PR #X](#) - reviewed by @username.
+- [Link to PR #X](https://github.com/vanmitG/canvas_game_starter/pull/1) - reviewed by @username.
 - [Link to PR #Y](#) - reviewed by @otherusername.
 
 ## Required User Stories
@@ -26,9 +26,9 @@ This code was reviewed by @username and @otherusername.
 - [x] The user can catch a monster by moving their character to the same location as a monster.
 - [x] When the user catches a monster, a new monster is placed randomly upon the screen.
 - [x] The user can see the numbers of monsters she has caught. Every time she catches a monster, the number should increment by one.
-- [] The game ends when the user has caught 20 monsters. The total time elapsed is displayed upon game completion, in seconds.
-- [] The user can access this game from the internet (e.g. using Netlify).
-- [] The code has been reviewed by at least one other person, using Pull Requests on GitHub.
+- [x] The game ends when the user has caught 20 monsters. The total time elapsed is displayed upon game completion, in seconds.
+- [x] The user can access this game from the internet (e.g. using Netlify).
+- [x] The code has been reviewed by at least one other person, using Pull Requests on GitHub.
 
 ## Optional User Stories
 

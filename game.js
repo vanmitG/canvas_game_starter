@@ -23,8 +23,14 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 15;
+const SECONDS_PER_ROUND = 20;
+const REQUIRE_MONSTER = 10;
 let elapsedTime = 0;
+let score = 0;
+let timePerGame = 0;
+let gameNumber = 1;
+let playerHighScore = 0;
+let endGameScore = 5;
 
 function loadImages() {
   bgImage = new Image();
@@ -67,9 +73,7 @@ let heroY = canvas.height / 2;
 let monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 1;
 let monsterY = Math.floor(Math.random() * (canvas.height - 10)) + 1;
 
-let score = 0;
-let timePerGame = 0;
-let gameNumber = 1;
+//get high score from local storage
 let highScore = localStorage.getItem("highScore");
 console.log("highScorehighScore", highScore);
 document.getElementById("highScore").innerHTML = highScore;
@@ -108,7 +112,6 @@ function setupKeyboardListeners() {
  *  If you change the value of 5, the player will move at a different rate.
  */
 
-let isOutOfTime = false;
 let update = function() {
   // Update the time.
   elapsedTime = Math.floor((Date.now() - startTime) / 1000);
@@ -122,6 +125,14 @@ let update = function() {
   if (elapsedTime <= SECONDS_PER_ROUND) {
     document.getElementById("timePlay").innerHTML = elapsedTime;
   } else {
+    console.log("score at end game", score);
+    return;
+  }
+  if (score <= endGameScore) {
+    document.getElementById("scoreNumber").innerHTML = score;
+    // console.log("scoreAt133", score);
+  } else {
+    console.log("score at end game", score);
     return;
   }
 
@@ -211,11 +222,12 @@ var render = function() {
     ctx.drawImage(monsterImage, monsterX, monsterY);
   }
   let remainTime = SECONDS_PER_ROUND - elapsedTime;
-  if (remainTime >= 0) {
+  if (remainTime >= 0 && score <= endGameScore) {
     ctx.fillStyle = "black";
     ctx.font = "12px Arial";
     ctx.textAlign = "left";
     ctx.fillText(`Seconds Remaining: ${remainTime}`, 20, 50);
+    // console.log("score at 230 in render", score);
   } else {
     ctx.fillStyle = "red";
     ctx.font = "50px Arial";
