@@ -23,14 +23,13 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 20;
-const REQUIRE_MONSTER = 10;
+const SECONDS_PER_ROUND = 30;
+const endGameScore = 10;
 let elapsedTime = 0;
-let score = 0;
 let timePerGame = 0;
-let gameNumber = 1;
+let score = 0;
 let playerHighScore = 0;
-let endGameScore = 5;
+let gameNumber = 1;
 
 function loadImages() {
   bgImage = new Image();
@@ -75,8 +74,7 @@ let monsterY = Math.floor(Math.random() * (canvas.height - 10)) + 1;
 
 //get high score from local storage
 let highScore = localStorage.getItem("highScore");
-console.log("highScorehighScore", highScore);
-document.getElementById("highScore").innerHTML = highScore;
+// console.log("highScorehighScore", highScore);
 
 /**
  * Keyboard Listeners
@@ -122,17 +120,11 @@ let update = function() {
   // console.log("SECONDS_PER_ROUND", SECONDS_PER_ROUND);
   // console.log("over?", elapsedTime > SECONDS_PER_ROUND);
 
-  if (elapsedTime <= SECONDS_PER_ROUND) {
+  if (elapsedTime <= SECONDS_PER_ROUND && score <= endGameScore) {
     document.getElementById("timePlay").innerHTML = elapsedTime;
-  } else {
-    console.log("score at end game", score);
-    return;
-  }
-  if (score <= endGameScore) {
     document.getElementById("scoreNumber").innerHTML = score;
-    // console.log("scoreAt133", score);
   } else {
-    console.log("score at end game", score);
+    // console.log("score at end game", score);
     return;
   }
 
@@ -152,17 +144,17 @@ let update = function() {
     // Player is holding right key
     heroX += 5;
   }
-  if (heroX <= -10) {
-    heroX = canvas.width - 10;
-  }
-  if (heroX >= canvas.width) {
+  if (heroX <= 10) {
     heroX = 10;
   }
-  if (heroY <= -10) {
-    heroY = canvas.height - 10;
+  if (heroX >= canvas.width - 20) {
+    heroX = canvas.width - 20;
   }
-  if (heroY >= canvas.height) {
+  if (heroY <= 10) {
     heroY = 10;
+  }
+  if (heroY >= canvas.height - 20) {
+    heroY = canvas.height - 20;
   }
   // console.log("heroXheroX", heroX);
   // console.log("heroYheroY", heroY);
@@ -183,16 +175,22 @@ let update = function() {
     // console.log("scorescore", score);
     // console.log("heroXheroX", heroX);
     // console.log("heroYheroY", heroY);
-    document.getElementById("scoreNumber").innerHTML = score;
-    if (score > highScore) {
-      highScore = score;
+    // document.getElementById("scoreNumber").innerHTML = score;
+
+    if (score > playerHighScore) {
+      playerHighScore = score;
+      document.getElementById("playerHighScore").innerHTML = playerHighScore;
+    }
+    if (playerHighScore > highScore) {
+      highScore = playerHighScore;
+      document.getElementById("highScore").innerHTML = highScore;
       localStorage.setItem("highScore", highScore);
     }
 
     // monsterX = monsterX + 50;
     // monsterY = monsterY + 70;
-    monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 1;
-    monsterY = Math.floor(Math.random() * (canvas.height - 10)) + 1;
+    monsterX = Math.floor(Math.random() * (canvas.width - 25)) + 1;
+    monsterY = Math.floor(Math.random() * (canvas.height - 25)) + 1;
   }
 };
 
@@ -222,7 +220,7 @@ var render = function() {
     ctx.drawImage(monsterImage, monsterX, monsterY);
   }
   let remainTime = SECONDS_PER_ROUND - elapsedTime;
-  if (remainTime >= 0 && score <= endGameScore) {
+  if (remainTime >= 0 && score < endGameScore) {
     ctx.fillStyle = "black";
     ctx.font = "12px Arial";
     ctx.textAlign = "left";
