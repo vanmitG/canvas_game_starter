@@ -1,8 +1,8 @@
 #gameContainer {
-  width: 520;
-  height: 490;
+  width: 980;
+  height: 680;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 .noScroll {
